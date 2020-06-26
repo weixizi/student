@@ -85,6 +85,5 @@ public class CodeGenerator {
 
         // 6、执行
         mpg.execute();
-        ;
     }
 }
