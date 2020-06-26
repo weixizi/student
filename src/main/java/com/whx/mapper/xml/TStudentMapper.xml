@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.whx.mapper.TStudentMapper">
+    <select id="findAll" resultType="com.whx.entity.vo.StudentVo">
+        select
+        <include refid="result"></include>
+        FROM
+        <include refid="tables"></include>
+        <if test="studentVo != null">
+            <if test="studentVo.name != null">
+                where s.name like #{studentVo.name}
+            </if>
+            <if test="studentVo.qq != null">
+                where s.qq like #{studentVo.qq}
+            </if>
+            <if test="studentVo.phone != null">
+                where s.phone like #{studentVo.phone}
+            </if>
+            <if test="studentVo.clazzname != null">
+                where cl.name like #{studentVo.clazzname}
+            </if>
+        </if>
+
+    </select>
+    <sql id="result">
+        s.id,
+        s.name,
+        s.age,
+        s.bir,
+        s.phone,
+        s.qq,
+        s.attr,
+        s.starts,
+        s.mark,
+        cl.`name` clazzname,
+        c.`name` cityname,
+        g.name groupname,
+        t.name tagname
+    </sql>
+    <sql id="tables">
+         t_student s
+        LEFT JOIN t_city c ON s.cityid = c.id
+        LEFT JOIN t_clazz cl ON cl.id = s.clazzid
+        LEFT JOIN t_group g ON g.id = s.groupid
+        LEFT JOIN t_student_tag ts ON ts.studentid = s.id
+		LEFT JOIN t_tag t ON t.id = ts.tagid
+    </sql>
+</mapper>
