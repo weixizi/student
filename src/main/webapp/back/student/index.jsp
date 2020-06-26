@@ -153,7 +153,7 @@
 
                         <li style="height: 100px";>
                             <c:if test="${pageNow<total}">
-                                <a style="height: 50px;width: 50px"; href="${pageContext.request.contextPath}/t-student/findAll?pageNow=${pageNow+1}}" aria-label="Next">
+                                <a style="height: 50px;width: 50px"; href="${pageContext.request.contextPath}/t-student/findAll?pageNow=${pageNow+1}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </c:if>
