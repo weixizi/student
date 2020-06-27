@@ -8,9 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpSession;
@@ -30,13 +28,14 @@ public class TTagController {
     private TTagService tTagService;
 
     @ApiOperation("查询所有标签")
-    @RequestMapping("list")
+    @GetMapping("list")
     String list(HttpSession session){
         return findAll(session);
     }
 
+    @ApiOperation("查询所有学生级别标签")
     @ResponseBody
-    @RequestMapping("studentlist")
+    @GetMapping("studentlist")
     List<TTag> studentlist(){
         QueryWrapper<TTag> wrapper = new QueryWrapper<>();
         wrapper.eq("type","学生");
@@ -50,13 +49,13 @@ public class TTagController {
     }
 
     @ApiOperation("新增标签")
-    @RequestMapping("save")
+    @PostMapping("save")
     String Save(TTag tTag, HttpSession session){
         tTagService.save(tTag);
         return findAll(session);
     }
 
-    @RequestMapping("deletebyid")
+    @GetMapping("deletebyid")
     @ApiOperation("根据id删除标签")
     String deleteById(@RequestParam("id") Integer id, HttpSession session){
         tTagService.removeById(id);

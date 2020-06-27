@@ -7,9 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpSession;
@@ -29,20 +27,20 @@ public class TCityController {
     private TCityService tCityService;
 
     @ApiOperation("查询所有城市")
-    @RequestMapping("list")
+    @GetMapping("list")
     String list(HttpSession session){
         return findAll(session);
     }
 
     @ApiOperation("查询所有城市Json格式")
-    @RequestMapping("findAllJSON")
+    @GetMapping("findAllJSON")
     @ResponseBody
     List<TCity> findAllJSON(){
         return tCityService.list();
     }
 
     @ApiOperation("新增城市")
-    @RequestMapping("save")
+    @PostMapping("save")
     String Save(TCity tCity,HttpSession session){
         if (tCity.getNumbers() == null){
             tCity.setNumbers(0);
@@ -53,7 +51,7 @@ public class TCityController {
         return findAll(session);
     }
 
-    @RequestMapping("deletebyid")
+    @GetMapping("deletebyid")
     @ApiOperation("根据id删除城市")
     String deleteById(@RequestParam("id") Integer id, HttpSession session){
         tCityService.removeById(id);

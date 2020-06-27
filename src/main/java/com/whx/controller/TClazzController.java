@@ -9,9 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpSession;
@@ -31,7 +29,7 @@ public class TClazzController {
     private TClazzService tClazzService;
 
     @ApiOperation("查询所有班级和对应的标签")
-    @RequestMapping("list")
+    @GetMapping("list")
     String list(HttpSession session){
         return findAll(session);
     }
@@ -39,20 +37,20 @@ public class TClazzController {
 
 
     @ResponseBody
-    @RequestMapping("findAllClazzJSON")
+    @GetMapping("findAllClazzJSON")
     List<TClazz> findAllClazzJSON(HttpSession session){
         return tClazzService.list();
     }
 
     @ApiOperation("保存班级")
-    @RequestMapping("save")
+    @PostMapping("save")
     String save(ClazzVo clazzVo,HttpSession session){
         tClazzService.saves(clazzVo);
         list(session);
         return findAll(session);
     }
 
-    @RequestMapping("deletebyid")
+    @GetMapping("deletebyid")
     @ApiOperation("根据id删除班级")
     String deleteById(@RequestParam("id") Integer id, HttpSession session){
         tClazzService.removeById(id);

@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpSession;
@@ -22,7 +19,6 @@ import java.util.List;
 
 
 /**
- *
  * @author weixi
  * @since 2020-06-22
  */
@@ -62,35 +58,41 @@ public class TStudentController {
             }
         }
 
-        if (StringUtils.isEmpty(pageNow)){
+        if (StringUtils.isEmpty(pageNow)) {
             pageNow = "0";
         }
-        studentPage = tStudentService.findAll(studentVo,Integer.parseInt(pageNow));
+
+        if (searchValue == null && searchCol == null){
+             studentVo = (StudentVo) session.getAttribute("studentVo");
+        }
+        session.setAttribute("studentVo", studentVo);
+
+        studentPage = tStudentService.findAll(studentVo, Integer.parseInt(pageNow));
         List<StudentVo> students = studentPage.getRecords();
         long total = studentPage.getTotal();
         long current = studentPage.getCurrent();
         long pages = studentPage.getPages();
 
-        session.setAttribute("students",students);
-        session.setAttribute("total",total);
-        session.setAttribute("pageNow",current);
-        session.setAttribute("pages",pages);
+        session.setAttribute("students", students);
+        session.setAttribute("total", total);
+        session.setAttribute("pageNow", current);
+        session.setAttribute("pages", pages);
 
 
-        return "back/student/index";
+        return "forward:/back/student/index.jsp";
     }
 
     @ApiOperation("添加学生")
-    @RequestMapping("save")
-    @ResponseBody
-    public void save(TStudent tStudent){
+    @PostMapping("save")
+    public String save(TStudent tStudent) {
         tStudentService.save(tStudent);
+        return "forward:/back/student/index.jsp";
     }
 
-    @ResponseBody
-    @RequestMapping("deletebyid")
-    public void deleteById(@RequestParam Integer id){
+    @GetMapping("deletebyid")
+    public String deleteById(@RequestParam Integer id) {
         tStudentService.removeById(id);
+        return "forward:/back/student/index.jsp";
     }
 }
 

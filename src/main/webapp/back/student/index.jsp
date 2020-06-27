@@ -152,14 +152,16 @@
                         </c:forEach>
 
                         <li style="height: 100px";>
-                            <c:if test="${pageNow<total}">
+                            <c:if test="${pageNow<pages}">
                                 <a style="height: 50px;width: 50px"; href="${pageContext.request.contextPath}/t-student/findAll?pageNow=${pageNow+1}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </c:if>
                         </li>
-
                 </ul>
+                <c:if test="total>0">
+                    <h3>共${total}条数据，当前第${pageNow}页，共${pages}页</h3>
+                </c:if>
             </nav>
         </div>
     </div>

@@ -9,9 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpSession;
@@ -31,13 +29,13 @@ public class TGroupController {
     private TGroupService tGroupService;
 
     @ApiOperation("查询所有组和对应的班级及标签")
-    @RequestMapping("list")
+    @GetMapping("list")
     String list(HttpSession session){
         return findAll(session);
     }
 
     @ApiOperation("新增小组")
-    @RequestMapping("save")
+    @PostMapping("save")
     String save(GroupVo groupVo,HttpSession session){
         tGroupService.saves(groupVo);
         list(session);
@@ -45,7 +43,7 @@ public class TGroupController {
     }
 
     @ApiOperation("根据clazzid查询")
-    @RequestMapping("findByClazzId")
+    @GetMapping("findByClazzId")
     @ResponseBody
     List<TGroup> findByClazzId(@RequestParam("id") Integer id){
         QueryWrapper<TGroup> queryWrapper = new QueryWrapper<>();
@@ -53,7 +51,7 @@ public class TGroupController {
         return tGroupService.getBaseMapper().selectList(queryWrapper);
     }
 
-    @RequestMapping("deletebyid")
+    @GetMapping("deletebyid")
     @ApiOperation("根据id删除组")
     String deleteById(@RequestParam("id") Integer id, HttpSession session){
         tGroupService.removeById(id);

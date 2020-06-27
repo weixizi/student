@@ -22,9 +22,6 @@ import java.util.List;
 @RequestMapping("/t-student-tag")
 public class TStudentTagController {
 
-    @Autowired
-    private TStudentTagService tStudentTagService;
-
 
 }
 

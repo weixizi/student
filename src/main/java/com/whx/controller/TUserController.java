@@ -58,7 +58,7 @@ public class TUserController {
     }
 
     @ApiOperation("注册用户")
-    @RequestMapping("register")
+    @PostMapping("register")
     @ResponseBody
     public Stuart saveUser(TUser tUser, String code, HttpSession session) {
         String code1 = (String) session.getAttribute("code");
@@ -101,7 +101,7 @@ public class TUserController {
     }
 
     @ApiOperation("退出")
-    @RequestMapping("exit")
+    @GetMapping("exit")
     public String exit(HttpSession session){
         session.invalidate();;
         return "redirect:/back/login.jsp";
