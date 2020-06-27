@@ -76,7 +76,6 @@ public class TStudentController {
         session.setAttribute("pageNow", current);
         session.setAttribute("pages", pages);
 
-
         return "forward:/back/student/index.jsp";
     }
 
