@@ -11,5 +11,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class EmsApplication {
     public static void main(String[] args) {
         SpringApplication.run(EmsApplication.class,args);
+        System.out.println("     —        —————————     =        —        ————————— ");
+        System.out.println("   /   \\      |             |       /  \\      |       |");
+        System.out.println("  /     \\     |      ———    |      /    \\     |       |");
+        System.out.println(" /———————\\    |       |     |     /——————\\    |       |");
+        System.out.println("/         \\   —————————     |    /        \\   —————————");
+
     }
 }
