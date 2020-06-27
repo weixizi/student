@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -27,7 +26,6 @@ import java.util.List;
 @RequestMapping("/t-student")
 public class TStudentController {
 
-    HashMap<String, String> map;
 
     @Autowired
     private TStudentService tStudentService;

@@ -113,6 +113,7 @@ public class TUserController {
         TUser tUser1 = tUserService.getOne(queryWrapper);
         return tUser1;
     }
+
 }
 
 
