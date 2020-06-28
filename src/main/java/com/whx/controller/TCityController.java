@@ -8,8 +8,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -28,8 +31,10 @@ public class TCityController {
 
     @ApiOperation("查询所有城市")
     @GetMapping("list")
-    String list(HttpSession session){
-        return findAll(session);
+    String list(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        return findAll();
     }
 
     @ApiOperation("查询所有城市Json格式")
@@ -41,26 +46,28 @@ public class TCityController {
 
     @ApiOperation("新增城市")
     @PostMapping("save")
-    String Save(TCity tCity,HttpSession session){
+    String Save(TCity tCity){
         if (tCity.getNumbers() == null){
             tCity.setNumbers(0);
         }
         tCityService.save(tCity);
-        list(session);
+        list();
 
-        return findAll(session);
+        return findAll();
     }
 
     @GetMapping("deletebyid")
     @ApiOperation("根据id删除城市")
-    String deleteById(@RequestParam("id") Integer id, HttpSession session){
+    String deleteById(@RequestParam("id") Integer id){
         tCityService.removeById(id);
-        list(session);
-        return findAll(session);
+        list();
+        return findAll();
     }
 
     @ApiOperation("查询所有城市,动态刷新")
-    private String findAll(HttpSession session) {
+    private String findAll() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
         List<TCity> cities = tCityService.list();
         session.setAttribute("cities", cities);
         return "back/city/index";

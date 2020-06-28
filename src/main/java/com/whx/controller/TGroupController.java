@@ -10,8 +10,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -30,16 +33,17 @@ public class TGroupController {
 
     @ApiOperation("查询所有组和对应的班级及标签")
     @GetMapping("list")
-    String list(HttpSession session){
-        return findAll(session);
+    String list(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        return findAll();
     }
 
     @ApiOperation("新增小组")
     @PostMapping("save")
-    String save(GroupVo groupVo,HttpSession session){
+    String save(GroupVo groupVo){
         tGroupService.saves(groupVo);
-        list(session);
-        return findAll(session);
+        return findAll();
     }
 
     @ApiOperation("根据clazzid查询")
@@ -53,12 +57,15 @@ public class TGroupController {
 
     @GetMapping("deletebyid")
     @ApiOperation("根据id删除组")
-    String deleteById(@RequestParam("id") Integer id, HttpSession session){
+    String deleteById(@RequestParam("id") Integer id){
         tGroupService.removeById(id);
-        return findAll(session);
+        return findAll();
     }
 
-    private String findAll(HttpSession session) {
+    private String findAll() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+
         List<GroupVo> groups = tGroupService.findAll();
         session.setAttribute("groups",groups);
         System.out.println(groups.get(0).getTagname());

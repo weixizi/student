@@ -13,8 +13,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
@@ -33,18 +36,18 @@ public class TUserController {
     @Autowired
     private TUserService tUserService;
 
-    @Autowired
-    private ValidateImageCodeUtils validateImageCodeUtils;
-
     /**
      * 获取验证码
-     * @param session
-     * @param response
+     *
      */
     @ApiOperation("获取验证码")
     @RequestMapping("getImage")
     @ResponseBody
-    public void getImage(HttpSession session, HttpServletResponse response) {
+    public void getImage( ) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        HttpSession session = request.getSession();
+
         String code = ValidateImageCodeUtils.getSecurityCode();
         System.out.println("code = " + code); //设置到session
         session.setAttribute("code", code);
@@ -60,7 +63,9 @@ public class TUserController {
     @ApiOperation("注册用户")
     @PostMapping("register")
     @ResponseBody
-    public Stuart saveUser(TUser tUser, String code, HttpSession session) {
+    public Stuart saveUser(TUser tUser, String code ) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
         String code1 = (String) session.getAttribute("code");
         Stuart stuart = new Stuart();
 
@@ -84,7 +89,10 @@ public class TUserController {
     @ApiOperation("登录")
     @RequestMapping("login")
     @ResponseBody
-    public Stuart login(TUser tUser,String code,HttpSession session) {
+    public Stuart login(TUser tUser,String code) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+
         String code1 = (String) session.getAttribute("code");
         Stuart stuart = new Stuart();
         TUser tUser1 = findTUserByName(tUser.getName());
@@ -102,7 +110,10 @@ public class TUserController {
 
     @ApiOperation("退出")
     @GetMapping("exit")
-    public String exit(HttpSession session){
+    public String exit(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+
         session.invalidate();;
         return "redirect:/back/login.jsp";
     }

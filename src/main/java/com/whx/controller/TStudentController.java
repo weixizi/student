@@ -11,8 +11,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -37,7 +40,10 @@ public class TStudentController {
 
     @ApiOperation("分页查询学生")
     @RequestMapping("findAll")
-    public String finAll(String searchCol, String searchValue, HttpSession session, @RequestParam String pageNow) {
+    public String finAll(String searchCol, String searchValue , @RequestParam String pageNow) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+
         StudentVo studentVo = new StudentVo();
         Page<StudentVo> studentPage;
 

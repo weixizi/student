@@ -3,6 +3,7 @@ package com.whx.entity.vo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class StudentVo {
@@ -30,5 +31,5 @@ public class StudentVo {
 
     private String groupname;
 
-    private String tagname;
+    private List<String> tagname;
 }

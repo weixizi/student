@@ -9,8 +9,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -29,8 +32,8 @@ public class TTagController {
 
     @ApiOperation("查询所有标签")
     @GetMapping("list")
-    String list(HttpSession session){
-        return findAll(session);
+    String list(){
+        return findAll();
     }
 
     @ApiOperation("查询所有学生级别标签")
@@ -42,7 +45,10 @@ public class TTagController {
         return tTagService.getBaseMapper().selectList(wrapper);
     }
 
-    private String findAll(HttpSession session) {
+    private String findAll() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+
         List<TTag> tags = tTagService.list();
         session.setAttribute("tags",tags);
         return "back/tag/index";
@@ -50,16 +56,16 @@ public class TTagController {
 
     @ApiOperation("新增标签")
     @PostMapping("save")
-    String Save(TTag tTag, HttpSession session){
+    String Save(TTag tTag){
         tTagService.save(tTag);
-        return findAll(session);
+        return findAll();
     }
 
     @GetMapping("deletebyid")
     @ApiOperation("根据id删除标签")
-    String deleteById(@RequestParam("id") Integer id, HttpSession session){
+    String deleteById(@RequestParam("id") Integer id){
         tTagService.removeById(id);
-        return findAll(session);
+        return findAll();
     }
 
 }

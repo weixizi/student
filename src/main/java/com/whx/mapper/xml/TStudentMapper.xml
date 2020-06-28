@@ -6,6 +6,11 @@
         <include refid="result"></include>
         FROM
         <include refid="tables"></include>
+        <include refid="if"></include>
+
+
+    </select>
+    <sql id="if">
         <if test="studentVo != null">
             <if test="studentVo.name != null">
                 where s.name like #{studentVo.name}
@@ -20,8 +25,7 @@
                 where cl.name like #{studentVo.clazzname}
             </if>
         </if>
-
-    </select>
+    </sql>
     <sql id="result">
         s.id,
         s.name,

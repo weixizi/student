@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 
-@Component
+
 public class ValidateImageCodeUtils {
     /**
      * 验证码难度级别 Simple-数字 Medium-数字和小写字母 Hard-数字和大小写字母
